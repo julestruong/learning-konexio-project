@@ -6,7 +6,7 @@ $(function () {
   $resultsList = $(".results-list");
   $errorInputEmpty = $(".input-empty");
   $errorFilmNotFound = $(".film-not-found");
-  $pagination= $("#pagination");
+  $pagination = $("#pagination");
 
   /**
    * Cette fonction sera appelée lorsqu'on voudra afficher les films retournées par l'API.
@@ -35,14 +35,23 @@ $(function () {
     let movieToDisplay = "";
 
     movies.forEach((movie) => {
-      movieToDisplay += '<div class="d-flex mb-4 movie justify-content-between">';
+      movieToDisplay +=
+        '<div class="d-flex mb-4 movie justify-content-between">';
       movieToDisplay += "<div>";
       movieToDisplay += `<h3><a  href="film.html?filmId=${movie.id}">${movie.original_title}</a></h3>`;
-      movieToDisplay += movie.release_date ? `<p><strong>Date de sortie</strong> : ${movie.release_date} </p>` : "";
-      movieToDisplay += movie.overview ? `<p class="synopsis"><strong>Synopsis</strong> : ${movie.overview} </p>`: "";
+      movieToDisplay += movie.release_date
+        ? `<p><strong>Date de sortie</strong> : ${movie.release_date} </p>`
+        : "";
+      movieToDisplay += movie.overview
+        ? `<p class="synopsis"><strong>Synopsis</strong> : ${movie.overview} </p>`
+        : "";
       movieToDisplay += `</div>`;
       movieToDisplay += `<div>`;
-      movieToDisplay += movie.poster_path ? `<img src="${URL_IMAGE_PREFIX + movie.poster_path}" alt="image-${movie.id}">` : "";
+      movieToDisplay += movie.poster_path
+        ? `<img src="${URL_IMAGE_PREFIX + movie.poster_path}" alt="image-${
+            movie.id
+          }">`
+        : "";
       movieToDisplay += `</div>`;
       movieToDisplay += `</div>`;
     });
@@ -55,16 +64,16 @@ $(function () {
   /**
    * Cette fonction exécute l'appel ajax.
    * Elle prend en parametre l'url qu'elle doit requeter.
-   * 
-   * @param {*} urlWithQuery 
+   *
+   * @param {*} urlWithQuery
    */
-  let ajaxCall = function(urlWithQuery) {
+  let ajaxCall = function (urlWithQuery) {
     $.ajax({
       url: urlWithQuery,
       success: function (data) {
         $resultsList.empty();
         let movies = data.results;
-        
+
         if (movies.length === 0) {
           // on cache l'erreur "champ est vide", au cas ou elle aurait été affiché
           $errorInputEmpty.addClass("d-none");
@@ -83,18 +92,18 @@ $(function () {
         displayPagination(data.page, data.total_pages);
       },
     });
-  }
+  };
 
   /**
    * Cette fonction est la callback de l'event listener du clic sur un lien de pagination
    * En d'autres termes, elle s'exécute lorsqu'on clique sur une autre page.
-   * 
-   * @param {*} event 
+   *
+   * @param {*} event
    */
   let onClickChangePage = function (event) {
     // pas vu en cours, mais event est intéressant ici.
     // il permet notamment de récuperer l'id de l'élément sur lequel on a cliqué
-    // pratique pour récuperer le numéro de la page 
+    // pratique pour récuperer le numéro de la page
     let page = event.target.id.substr(5);
     let movieSearched = $searchInput.val();
     let urlWithQuery = `${URL_API_MOVIE_SEARCH}?api_key=${URL_API_KEY}&query=${movieSearched}&language=fr-FR&page=${page}`;
@@ -113,32 +122,44 @@ $(function () {
     if (totalPages > 1) {
       $pagination.empty();
       paginationToDisplay += `<nav aria-label="Page navigation example">
-                              <ul class="pagination">`
+                              <ul class="pagination">`;
 
-      paginationToDisplay += currentPage > 1 ?`<li class="page-item"><a class="page-link" href="#" id="page-${currentPage-1}">Previous</a></li>` : '';
+      paginationToDisplay +=
+        currentPage > 1
+          ? `<li class="page-item"><a class="page-link" href="#" id="page-${
+              currentPage - 1
+            }">Previous</a></li>`
+          : "";
 
       if (totalPages <= 10) {
-        for(let i = 1; i <= totalPages; i++) {
+        for (let i = 1; i <= totalPages; i++) {
           paginationToDisplay += `<li class="page-item">
-                                  <a class="page-link ${i===currentPage? 'current': ''}" href="#" id="page-${i}">${i}</a>
-                                  </li>`
+                                  <a class="page-link ${
+                                    i === currentPage ? "current" : ""
+                                  }" href="#" id="page-${i}">${i}</a>
+                                  </li>`;
         }
       } else {
-        let initialI = Math.max(1, currentPage - 5)
+        let initialI = Math.max(1, currentPage - 5);
         let endI = Math.min(initialI + 9, totalPages);
-        for(let i = initialI; i <= endI ; i++) {
+        for (let i = initialI; i <= endI; i++) {
           paginationToDisplay += `<li class="page-item">
-                                  <a class="page-link ${i===currentPage? 'current': ''}" href="#" id="page-${i}">${i}</a>
-                                  </li>`
+                                  <a class="page-link ${
+                                    i === currentPage ? "current" : ""
+                                  }" href="#" id="page-${i}">${i}</a>
+                                  </li>`;
         }
-      } 
-      
-      paginationToDisplay += currentPage === totalPages ?'' : `<li class="page-item"><a class="page-link" href="#" id="page-${currentPage+1}">Next</a></li>`;
+      }
 
+      paginationToDisplay +=
+        currentPage === totalPages
+          ? ""
+          : `<li class="page-item"><a class="page-link" href="#" id="page-${
+              currentPage + 1
+            }">Next</a></li>`;
 
       paginationToDisplay += `</ul>
                               </nav>`;
-
 
       $pagination.append(paginationToDisplay);
       // on n'oublie surtout pas d'ajouter un écouteur d'évènement au clic sur les pages.
@@ -146,7 +167,7 @@ $(function () {
     }
 
     return;
-  }
+  };
 
   /**
    * Cette fonction est la callback qui s'exécute lorsqu'on aura cliqué sur le bouton "Lancer la recherche"
@@ -169,4 +190,11 @@ $(function () {
     ajaxCall(urlWithQuery);
   };
   $searchButton.click(onClickFunction);
+
+  const queryParams = getUrlVars();
+  const query = queryParams["query"];
+  if (query) {
+    $searchInput.val(query);
+    onClickFunction();
+  }
 });
