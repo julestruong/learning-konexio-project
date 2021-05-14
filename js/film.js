@@ -4,7 +4,7 @@ $(function () {
   const filmId = queryParams["filmId"];
   if (!filmId) {
     $(".container").html(
-      `<h2>You need to specify an film to see details, please use <a href="index.html">search</a></h2>`
+      `<h2>You need to specify an film to see details, please use <a href="search.html">search</a></h2>`
     );
 
     return;
