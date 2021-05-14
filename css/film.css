@@ -14,3 +14,14 @@
 .right {
   color: white;
 }
+
+.cast {
+  width: 100%;
+  overflow-x: scroll;
+}
+
+.cast h2 {
+  height: 75px;
+  display: flex;
+  align-items: center;
+}
