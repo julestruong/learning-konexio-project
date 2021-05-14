@@ -154,7 +154,7 @@ $(function () {
   let onClickFunction = function () {
     let movieSearched = $searchInput.val();
     let urlWithQuery = `${URL_API_MOVIE_SEARCH}?api_key=${URL_API_KEY}&query=${movieSearched}&language=fr-FR`;
-
+    console.log("urlWithQuery", urlWithQuery);
     // si la valeur de l'input est vide
     // équivalent à if (movieSearch === "" || movieSearch === null || movieSearched === undefined)
     if (!movieSearched) {

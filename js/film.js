@@ -11,7 +11,7 @@ $(function () {
   }
 
   let url = URL_API_MOVIE_DETAILS + filmId + "?api_key=" + URL_API_KEY;
-
+  console.log("url", url);
   $.ajax({
     url,
     success: function (data) {
