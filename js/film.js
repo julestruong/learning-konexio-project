@@ -40,7 +40,7 @@ $(function () {
               success: function (person) {
                 let personHTML = "";
                 personHTML += `<div>`;
-                personHTML += `<h2>${person.name}</h2>`;
+                personHTML += `<h2><a href="artist.html?artistId=${person.id}">${person.name}</a></h2>`;
                 personHTML += person.profile_path ? `<img src="${
                   URL_IMAGE_PREFIX + person.profile_path
                 }">` : '';
