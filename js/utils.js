@@ -10,7 +10,3 @@ function getUrlVars()
     }
     return vars;
 }
-
-module.exports = {
-  getUrlVars: getUrlVars
-}
